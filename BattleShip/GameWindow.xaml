@@ -1,0 +1,331 @@
+﻿<Window x:Name="window" x:Class="BattleShip.GameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BattleShip"
+        mc:Ignorable="d"
+        Title="Морской бой" Height="680" Width="1000" MinWidth="900" MinHeight="600">
+    <Window.Resources>
+        <local:SizeConverter x:Key="mySizeConverter"/>
+        <Storyboard x:Key="InnerAnim">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="textBlock">
+                <EasingThicknessKeyFrame KeyTime="0" Value="0,-70,0,0"/>
+                <EasingThicknessKeyFrame KeyTime="0:0:1" Value="0,10,0,0">
+                    <EasingThicknessKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingThicknessKeyFrame.EasingFunction>
+                </EasingThicknessKeyFrame>
+            </ThicknessAnimationUsingKeyFrames>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="buttonSaveBegin">
+                <EasingThicknessKeyFrame KeyTime="0" Value="0,0,0,-30">
+                    <EasingThicknessKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingThicknessKeyFrame.EasingFunction>
+                </EasingThicknessKeyFrame>
+                <EasingThicknessKeyFrame KeyTime="0:0:1" Value="0,0,0,20">
+                    <EasingThicknessKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingThicknessKeyFrame.EasingFunction>
+                </EasingThicknessKeyFrame>
+            </ThicknessAnimationUsingKeyFrames>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="grid1">
+                <EasingThicknessKeyFrame KeyTime="0:0:1" Value="30,0,0,0">
+                    <EasingThicknessKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingThicknessKeyFrame.EasingFunction>
+                </EasingThicknessKeyFrame>
+            </ThicknessAnimationUsingKeyFrames>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="turnButton">
+                <EasingThicknessKeyFrame KeyTime="0" Value="-50,0,0,20"/>
+                <EasingThicknessKeyFrame KeyTime="0:0:1" Value="30,0,0,20">
+                    <EasingThicknessKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingThicknessKeyFrame.EasingFunction>
+                </EasingThicknessKeyFrame>
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <ControlTemplate TargetType="RadioButton" x:Key="shipTemplate">
+            <Border x:Name="buttonBorder"
+                    CornerRadius="15"
+                    BorderBrush="White"
+                    BorderThickness="0.0"
+                    Background="{TemplateBinding Background}"
+                    Height="{TemplateBinding ActualHeight}"
+                    Width="{TemplateBinding ActualHeight}"
+                    >
+                <ContentControl x:Name="buttonContent"
+                    HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                FontFamily="Segoe UI"
+                                FontSize="32"
+                                Foreground="LightGray"
+                                Content="{TemplateBinding Content}"
+                                Opacity="0.5"
+                                Margin="0,0,0,0"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter TargetName="buttonBorder" Property="BorderThickness" Value="1"/>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="true">
+                    <Setter TargetName="buttonContent" Property="FontWeight" Value="SemiBold"/>
+                    <Setter TargetName="buttonContent" Property="Opacity" Value="1"/>
+                    <Setter TargetName="buttonContent" Property="Foreground" Value="White"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <ControlTemplate TargetType="local:TurnButton" x:Key="turnTemplate">
+            <Border x:Name="buttonBorder"
+                    CornerRadius="15"
+                    BorderBrush="White"
+                    BorderThickness="0.0"
+                    Background="White"
+                    Opacity="0.9"
+                    Height="{TemplateBinding ActualHeight}"
+                    Width="{TemplateBinding ActualWidth}">
+                <ContentControl x:Name="buttonContent"
+                    HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="Segoe UI"
+                                FontSize="14"
+                                Foreground="Black"
+                                Content="{TemplateBinding Content}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter TargetName="buttonBorder" Property="Background" Value="Gray"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter TargetName="buttonContent" Property="Opacity" Value="0.5"/>
+                </Trigger>
+
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <ControlTemplate TargetType="Button" x:Key="saveTemplate">
+            <Border x:Name="buttonBorder"
+                    CornerRadius="15"
+                    BorderBrush="White"
+                    BorderThickness="0.0"
+                    Background="White"
+                    Opacity="0.9"
+                    Height="{TemplateBinding ActualHeight}"
+                    Width="{TemplateBinding ActualWidth}">
+                <ContentControl x:Name="buttonContent"
+                    HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="Segoe UI"
+                                FontSize="14"
+                                Foreground="Black"
+                                Content="{TemplateBinding Content}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter TargetName="buttonBorder" Property="Background" Value="Gray"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter TargetName="buttonContent" Property="Opacity" Value="0.5"/>
+                </Trigger>
+
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter TargetName="buttonBorder" Property="Opacity" Value="0.5"/>
+                    <Setter TargetName="buttonContent" Property="Content" Value="Расположите корабли на игровом поле"/>
+                </Trigger>
+
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <Storyboard x:Key="HorizontalStroryboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(Brush.RelativeTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="twoShip">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="90">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(Brush.RelativeTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="threeShip">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="90">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(Brush.RelativeTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="fourShip">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="90">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="VerticalStoryboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(Brush.RelativeTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="fourShip">
+                <EasingDoubleKeyFrame KeyTime="0" Value="90"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(Brush.RelativeTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="threeShip">
+                <EasingDoubleKeyFrame KeyTime="0" Value="90"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(Brush.RelativeTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="twoShip">
+                <EasingDoubleKeyFrame KeyTime="0" Value="90"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="SchukinStoryboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="schukin">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="500">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="schukin">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-100">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="85">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="-100">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuadraticEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard x:Name="InnerAnim_BeginStoryboard" Storyboard="{StaticResource InnerAnim}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ToggleButton.Checked" SourceName="turnButton">
+            <BeginStoryboard x:Name="HorizontalStroryboard_BeginStoryboard" Storyboard="{StaticResource HorizontalStroryboard}"/>
+
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ToggleButton.Unchecked" SourceName="turnButton">
+            <BeginStoryboard x:Name="VerticalStoryboard_BeginStoryboard" Storyboard="{StaticResource VerticalStoryboard}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="local:TurnButton.Schukin" SourceName="turnButton">
+            <BeginStoryboard x:Name="SchukinStoryboard_BeginStoryboard" Storyboard="{StaticResource SchukinStoryboard}"/>
+        </EventTrigger>
+    </Window.Triggers>
+    <Grid x:Name="grid" Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="#FF00083F" Offset="1"/>
+                <GradientStop Color="#FF0083FF"/>
+                <GradientStop Color="#FF012979" Offset="0.642"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <UniformGrid x:Name="gameFieldGrid" HorizontalAlignment="Center" Height="{Binding ActualWidth, ElementName=gameFieldGrid, Mode=OneWay}" VerticalAlignment="Center" Width="{Binding ActualHeight, ConverterParameter=0\,6, Converter={StaticResource mySizeConverter}, ElementName=window, Mode=OneWay}" Background="White" Opacity="0.6" Margin="{Binding Margin, ElementName=textBlock}"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Height="66.4" Margin="30,-70,30,0" TextWrapping="Wrap" Text="Настройка игрового поля" VerticalAlignment="Top" Width="933.6" FontFamily="Segoe UI Light" FontWeight="Bold" TextAlignment="Center" FontSize="48" Foreground="White"/>
+        <Button x:Name="buttonSaveBegin" Template="{StaticResource saveTemplate}" Content="Сохранить и начать игру" HorizontalAlignment="Center" Height="30" VerticalAlignment="Bottom" Width="400" Margin="296.8,0,296.8,-30" IsEnabled="False"/>
+        <Grid x:Name="grid1" HorizontalAlignment="Left" Margin="-50,125.2,0,125.2" Width="{Binding ActualHeight, ConverterParameter=0\,25, Converter={StaticResource mySizeConverter}, ElementName=grid1, Mode=OneWay}" Height="400" >
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <RadioButton x:Name="oneShip" Tag="1" GroupName="Ships" Checked="Ship_Checked" Template="{StaticResource shipTemplate}" Content="4" Grid.Row="0">
+                <RadioButton.Background>
+                    <ImageBrush ImageSource="однопалуб.png" Stretch="Uniform"/>
+                </RadioButton.Background>
+            </RadioButton>
+            <RadioButton x:Name="twoShip" Tag="2" GroupName="Ships" Template="{StaticResource shipTemplate}" Content="3" Grid.Row="1">
+                <RadioButton.Background>
+                    <ImageBrush ImageSource="двупалуб.png" Stretch="Uniform">
+                        <ImageBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                <RotateTransform CenterY="0.5" CenterX="0.5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </ImageBrush.RelativeTransform>
+                    </ImageBrush>
+                </RadioButton.Background>
+            </RadioButton>
+
+            <RadioButton x:Name="threeShip" Tag="3" GroupName="Ships" Template="{StaticResource shipTemplate}" Content="2" Grid.Row="2">
+                <RadioButton.Background>
+                    <ImageBrush ImageSource="трехпалуб.png" Stretch="Uniform">
+                        <ImageBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                <RotateTransform CenterY="0.5" CenterX="0.5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </ImageBrush.RelativeTransform>
+                    </ImageBrush>
+                </RadioButton.Background>
+            </RadioButton>
+
+            <RadioButton x:Name="fourShip" Tag="4" GroupName="Ships" Template="{StaticResource shipTemplate}" Content="1" Grid.Row="3">
+                <RadioButton.Background>
+                    <ImageBrush ImageSource="четырехпалуб.png" Stretch="Uniform">
+                        <ImageBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                <RotateTransform CenterY="0.5" CenterX="0.5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </ImageBrush.RelativeTransform>
+                    </ImageBrush>
+                </RadioButton.Background>
+            </RadioButton>
+        </Grid>
+        <local:TurnButton x:Name="turnButton" Template="{StaticResource turnTemplate}" Click="TurnButton_Click" Content="Повернуть" HorizontalAlignment="Left" Height="30" Margin="30,0,0,20" VerticalAlignment="Bottom"  Width="{Binding ActualWidth, ElementName=fourShip}" />
+        <Border x:Name="schukin" BorderBrush="Black" BorderThickness="1" Height="0" Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" CornerRadius="20" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top">
+            <Border.Background>
+                <ImageBrush ImageSource="щукин.png"/>
+            </Border.Background>
+            <Border.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Border.RenderTransform>
+        </Border>
+
+    </Grid>
+</Window>

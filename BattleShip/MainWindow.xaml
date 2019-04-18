@@ -1,0 +1,74 @@
+﻿<Window x:Class="BattleShip.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Морской бой" Height="400" Width="400" ResizeMode="NoResize">
+    <Window.Resources>
+        <ControlTemplate TargetType="Button" x:Key="menuTemplate">
+            <Border x:Name="buttonBorder"
+                    CornerRadius="15"
+                    Background="White"
+                    Opacity="1"
+                    Height="{TemplateBinding ActualHeight}"
+                    Width="{TemplateBinding ActualWidth}">
+                <ContentControl x:Name="buttonContent"
+                    HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="Segoe UI Semibold"
+                                FontSize="24"
+                                Foreground="Black"
+                                Content="{TemplateBinding Content}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter TargetName="buttonBorder" Property="Background" Value="Gray"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter TargetName="buttonContent" Property="Opacity" Value="0.5"/>
+                </Trigger>
+
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+    <Grid HorizontalAlignment="Left" Width="394">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="#FF00083F" Offset="1"/>
+                <GradientStop Color="#FF0083FF"/>
+                <GradientStop Color="#FF012979" Offset="0.642"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <TextBlock x:Name="nameLabel" HorizontalAlignment="Left" Height="80" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="373.6" TextAlignment="Center" FontSize="48" Text="Морской бой" TextDecorations="{x:Null}" Foreground="White" FontFamily="Segoe UI Light"/>
+
+
+        <TextBlock x:Name="author" HorizontalAlignment="Left" Height="34.4" Margin="9.6,68.417,0,0" TextWrapping="Wrap" Text="Станислав Мильке" VerticalAlignment="Top" Width="374" TextAlignment="Center" Foreground="White" FontSize="20" FontStyle="Italic"/>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="216.8" Margin="47,144,47,10" RenderTransformOrigin="0.5,0.5" Width="300" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <Button x:Name="newGameButton" Template="{StaticResource menuTemplate}" Content="Новая игра" Width="300" Height="40" Margin="0,5">
+                <Button.BorderBrush>
+                    <ImageBrush/>
+                </Button.BorderBrush>
+            </Button>
+            <Button x:Name="resumeButton" Template="{StaticResource menuTemplate}" Content="Продолжить" Width="300" Height="40" Margin="0,0,0,5">
+                <Button.BorderBrush>
+                    <ImageBrush/>
+                </Button.BorderBrush>
+            </Button>
+            <Button x:Name="settingsButton" Template="{StaticResource menuTemplate}" Width="300" Height="40" Content="Настройки" Margin="0,0,0,5">
+                <Button.BorderBrush>
+                    <ImageBrush/>
+                </Button.BorderBrush>
+            </Button>
+            <Button x:Name="exitButton" Template="{StaticResource menuTemplate}" Content="Выход" Width="300" Height="40" FontSize="24" Margin="0,0,0,5">
+                <Button.BorderBrush>
+                    <ImageBrush/>
+                </Button.BorderBrush>
+            </Button>
+        </StackPanel>
+
+
+
+
+    </Grid>
+</Window>

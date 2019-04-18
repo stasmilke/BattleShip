@@ -1,0 +1,46 @@
+﻿<UserControl x:Name="userControl" x:Class="BattleShip.StatedButtonControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BattleShip"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="100">
+    <UserControl.Resources>
+        <local:SizeConverter x:Key="SizeConverter"/>
+        
+        <ControlTemplate TargetType="{x:Type local:StatedButton}" x:Key="shipTemplate" x:Name="ShipTemplate">
+            <Border x:Name="buttonBackground"
+                    Background="LightGray"
+                    BorderThickness="1"
+                    CornerRadius="1">
+                <ContentControl x:Name="buttonContent"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                    <Ellipse 
+                    x:Name="killed"
+                    Opacity="0"
+                    Width="{Binding ActualWidth, ConverterParameter=0\,8, Converter={StaticResource SizeConverter}, ElementName=button, Mode=OneWay}" 
+                    Height="{Binding ActualWidth, ConverterParameter=0\,8, Converter={StaticResource SizeConverter}, ElementName=button, Mode=OneWay}"
+                    Fill="#FF3800CA" />
+                </ContentControl>
+            </Border>
+
+            <ControlTemplate.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="InSetting" Value="True"/>
+                        <Condition Property="ButtonState" Value="SetShip"/>
+                    </MultiTrigger.Conditions>
+                    <MultiTrigger.Setters>
+                        <Setter TargetName="killed" Property="Opacity" Value="0.8"/>
+                    </MultiTrigger.Setters>
+                </MultiTrigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+    </UserControl.Resources>
+    <Grid>
+        <local:StatedButton x:Name="button" MouseEnter="Button_MouseEnter" Template="{StaticResource shipTemplate}" InSetting="True" ButtonState="Unselected"/>
+    </Grid>
+</UserControl>
