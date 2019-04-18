@@ -2,7 +2,7 @@
 
 namespace BattleShip
 {
-    class ShipCollection : List<Ship>
+    public class ShipCollection : List<Ship>
     {
         public delegate void CollectionHandler();
 

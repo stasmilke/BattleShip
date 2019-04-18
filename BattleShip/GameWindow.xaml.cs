@@ -20,10 +20,11 @@ namespace BattleShip
     /// </summary>
     public partial class GameWindow : Window
     {
-        StatedButtonControl[,] playerField;
-        ShipCollection ships;
+        public ShipCollection ships;
         private static int shuCounter = 0;
-        private static int selectedLength = 0;
+        public static bool IsVertical { get; private set; } = false;
+        public static int SelectedLength { get; private set; } = 0;
+        public static StatedButtonControl[,] PlayerField { get; private set; }
 
         static GameWindow()
         {
@@ -32,9 +33,8 @@ namespace BattleShip
         public GameWindow()
         {
             InitializeComponent();
-            playerField = FieldDrower.CreateEmptyField(this);
-            AddButtons(playerField);
-            ships = new ShipCollection();
+            PlayerField = FieldDrower.CreateEmptyField(this);
+            AddButtons(PlayerField);
         }
       
         public void ButtonSquare_Click(object sender, RoutedEventArgs e)
@@ -47,11 +47,11 @@ namespace BattleShip
         {
             foreach (StatedButtonControl btn in buttons)
             {
-                gameFieldGrid.Children.Add(btn);
+                gameFieldGrid.fieldGrid.Children.Add(btn);
             }
         }
 
-        public void TurnButton_Click(object sender, RoutedEventArgs e)
+        private void TurnButton_Click(object sender, RoutedEventArgs e)
         {
             shuCounter++;
             if (shuCounter == 10)
@@ -59,12 +59,13 @@ namespace BattleShip
                 turnButton.RaiseEvent(new RoutedEventArgs(TurnButton.SchukinEvent, sender));
                 shuCounter = 0;
             }
+            IsVertical = turnButton.IsChecked.Value;
         }
 
         private void Ship_Checked(object sender, RoutedEventArgs e)
         {
             RadioButton btn = (RadioButton)sender;
-            selectedLength = (int) btn.Tag;
+            SelectedLength = int.Parse((string)btn.Tag);
         }
     }
 }

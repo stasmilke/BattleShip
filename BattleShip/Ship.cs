@@ -15,7 +15,7 @@ using System.Threading;
 
 namespace BattleShip
 {
-    class Ship
+    public class Ship
     {
         public delegate void ShipStateHandler(Ship injShip, Point injPoint);
 

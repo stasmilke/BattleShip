@@ -24,7 +24,7 @@ namespace BattleShip
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    buttons[i, j] = new StatedButtonControl();
+                    buttons[i, j] = new StatedButtonControl(new GameField(false));
                     buttons[i, j].Tag = new Point(i, j);
                 }
             }

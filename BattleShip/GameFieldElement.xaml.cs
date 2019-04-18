@@ -25,16 +25,15 @@ namespace BattleShip
             InitializeComponent();
         }
 
-        public static StatedButton[,] CreateEmptyField(GameWindow window)
+        public static StatedButtonControl[,] CreateEmptyField()
         {
-            StatedButton[,] buttons = new StatedButton[10, 10];
+            StatedButtonControl[,] buttons = new StatedButtonControl[10, 10];
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    buttons[i, j] = new StatedButton();
+                    buttons[i, j] = new StatedButtonControl(new GameField(false));
                     buttons[i, j].Tag = new Point(i, j);
-                    buttons[i, j].Click += window.ButtonSquare_Click;
                 }
             }
             return buttons;

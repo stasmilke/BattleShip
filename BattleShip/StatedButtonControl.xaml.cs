@@ -35,11 +35,30 @@ namespace BattleShip
         {
             if (thisField.isSetting)
             {
-
+                GameField.SetShipState(this);
             }
-            else
-            {
+        }
 
+        private void Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (thisField.isSetting)
+            {
+                GameField.UnsetShipState();
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (thisField.isSetting)
+            {
+                if (button.ButtonState == StatedButton.State.Ship)
+                {
+                    GameField.UnsetShipOnField();
+                }
+                else
+                {
+                    GameField.SetShipOnField();
+                }
             }
         }
     }

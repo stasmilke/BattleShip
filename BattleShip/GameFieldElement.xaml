@@ -6,25 +6,6 @@
              xmlns:local="clr-namespace:BattleShip"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="400">
-    <UserControl.Resources>
-        <ControlTemplate TargetType="{x:Type Button}" x:Key="shipTemplate" x:Name="ShipTemplate">
-            <Border Background="LightGray"
-                    Height="{TemplateBinding ActualHeight}"
-                    Width="{TemplateBinding ActualHeight}"
-                    CornerRadius="10">
-
-                <ContentControl x:Name="buttonContent"
-                    HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Content="{TemplateBinding Content}"/>
-            </Border>
-            <ControlTemplate.Triggers>
-                <Trigger Property="IsPressed" Value="true">
-                    <Setter TargetName="buttonContent" Property="Opacity" Value="0.5"/>
-                </Trigger>
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
-    </UserControl.Resources>
-    <UniformGrid x:Name="gameFieldGrid" HorizontalAlignment="Stretch" Height="{Binding ActualWidth, ElementName=gameFieldGrid, Mode=OneWay}" VerticalAlignment="Stretch" Background="White" Opacity="0.6"/>
+    <UniformGrid x:Name="fieldGrid" HorizontalAlignment="Stretch" Height="{Binding ActualWidth, ElementName=gameFieldGrid, Mode=OneWay}" VerticalAlignment="Stretch" Background="White" Opacity="0.6"/>
 
 </UserControl>
