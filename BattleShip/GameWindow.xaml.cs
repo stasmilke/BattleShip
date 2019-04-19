@@ -24,31 +24,20 @@ namespace BattleShip
         private static int shuCounter = 0;
         public static bool IsVertical { get; private set; } = false;
         public static int SelectedLength { get; private set; } = 0;
-        public static StatedButtonControl[,] PlayerField { get; private set; }
-
-        static GameWindow()
-        {
-        }
+        public GameFieldElement ComputerField { get; private set; }
+        public ShipCollection.NumbersLeft NumbersContext { set => grid1.DataContext = value; }
 
         public GameWindow()
         {
             InitializeComponent();
-            PlayerField = FieldDrower.CreateEmptyField(this);
-            AddButtons(PlayerField);
+            gameFieldGrid.IsSetting = true;
+            grid1.DataContext = new ShipCollection.NumbersLeft();
         }
       
         public void ButtonSquare_Click(object sender, RoutedEventArgs e)
         {
 
 
-        }
-
-        private void AddButtons(StatedButtonControl[,] buttons)
-        {
-            foreach (StatedButtonControl btn in buttons)
-            {
-                gameFieldGrid.fieldGrid.Children.Add(btn);
-            }
         }
 
         private void TurnButton_Click(object sender, RoutedEventArgs e)

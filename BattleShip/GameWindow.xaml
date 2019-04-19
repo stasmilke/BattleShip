@@ -249,7 +249,7 @@
                 <GradientStop Color="#FF012979" Offset="0.642"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <local:GameFieldElement x:Name="gameFieldGrid" HorizontalAlignment="Center" Height="{Binding ActualWidth, ElementName=gameFieldGrid, Mode=OneWay}" VerticalAlignment="Center" Width="{Binding ActualHeight, ConverterParameter=0\,6, Converter={StaticResource mySizeConverter}, ElementName=window, Mode=OneWay}" Background="White" Opacity="0.6" Margin="296.8,86.2,288.8,156.2"/>
+        <local:GameFieldElement x:Name="gameFieldGrid" HorizontalAlignment="Center" Height="{Binding ActualWidth, ElementName=gameFieldGrid, Mode=OneWay}" VerticalAlignment="Center" Width="{Binding ActualHeight, ConverterParameter=0\,6, Converter={StaticResource mySizeConverter}, ElementName=window, Mode=OneWay}" Background="White" Opacity="0.6" Margin="{Binding Margin, ElementName=textBlock}"/>
         <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Height="66.4" Margin="30,-70,30,0" TextWrapping="Wrap" Text="Настройка игрового поля" VerticalAlignment="Top" Width="933.6" FontFamily="Segoe UI Light" FontWeight="Bold" TextAlignment="Center" FontSize="48" Foreground="White"/>
         <Button x:Name="buttonSaveBegin" Template="{StaticResource saveTemplate}" Content="Сохранить и начать игру" HorizontalAlignment="Center" Height="30" VerticalAlignment="Bottom" Width="400" Margin="296.8,0,296.8,-30" IsEnabled="False"/>
         <Grid x:Name="grid1" HorizontalAlignment="Left" Margin="-50,125.2,0,125.2" Width="{Binding ActualHeight, ConverterParameter=0\,25, Converter={StaticResource mySizeConverter}, ElementName=grid1, Mode=OneWay}" Height="400" >
@@ -262,12 +262,12 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <RadioButton x:Name="oneShip" Tag="1" GroupName="Ships" Checked="Ship_Checked" Template="{StaticResource shipTemplate}" Content="4" Grid.Row="0">
+            <RadioButton x:Name="oneShip" Tag="1" GroupName="Ships" Checked="Ship_Checked" Template="{StaticResource shipTemplate}" Content="{Binding First}" Grid.Row="0">
                 <RadioButton.Background>
                     <ImageBrush ImageSource="однопалуб.png" Stretch="Uniform"/>
                 </RadioButton.Background>
             </RadioButton>
-            <RadioButton x:Name="twoShip" Tag="2" GroupName="Ships" Checked="Ship_Checked" Template="{StaticResource shipTemplate}" Content="3" Grid.Row="1">
+            <RadioButton x:Name="twoShip" Tag="2" GroupName="Ships" Checked="Ship_Checked" Template="{StaticResource shipTemplate}" Content="{Binding Second}" Grid.Row="1">
                 <RadioButton.Background>
                     <ImageBrush ImageSource="двупалуб.png" Stretch="Uniform">
                         <ImageBrush.RelativeTransform>
@@ -282,7 +282,7 @@
                 </RadioButton.Background>
             </RadioButton>
 
-            <RadioButton x:Name="threeShip" Tag="3" Checked="Ship_Checked" GroupName="Ships" Template="{StaticResource shipTemplate}" Content="2" Grid.Row="2">
+            <RadioButton x:Name="threeShip" Tag="3" Checked="Ship_Checked" GroupName="Ships" Template="{StaticResource shipTemplate}" Content="{Binding Third}" Grid.Row="2">
                 <RadioButton.Background>
                     <ImageBrush ImageSource="трехпалуб.png" Stretch="Uniform">
                         <ImageBrush.RelativeTransform>
@@ -297,7 +297,7 @@
                 </RadioButton.Background>
             </RadioButton>
 
-            <RadioButton x:Name="fourShip" Tag="4" Checked="Ship_Checked" GroupName="Ships" Template="{StaticResource shipTemplate}" Content="1" Grid.Row="3">
+            <RadioButton x:Name="fourShip" Tag="4" Checked="Ship_Checked" GroupName="Ships" Template="{StaticResource shipTemplate}" Content="{Binding Fourth}" Grid.Row="3">
                 <RadioButton.Background>
                     <ImageBrush ImageSource="четырехпалуб.png" Stretch="Uniform">
                         <ImageBrush.RelativeTransform>

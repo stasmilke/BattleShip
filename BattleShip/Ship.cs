@@ -23,37 +23,33 @@ namespace BattleShip
         public event ShipStateHandler Injured;
         public event ShipStateHandler Missed;
 
-        private Point[] arrayLinkedPoints;
+        public StatedButton[] Position { get; set; }
         private int left;
         public Ship(int length)
         {
             ShipLength = length;
             left = length;
             IsKilled = false;
+            Position = new StatedButton[length];
         }
 
         public int ShipLength { get; }
         public bool IsKilled { get; }
 
-        public void SetPostion(Point[] points)
-        {
-            arrayLinkedPoints = points;
-        }
-
         public void CheckShot(Point shotPoint)
         {
-            foreach (Point point in arrayLinkedPoints)
+            foreach (StatedButton btn in Position)
             {
-                if (point.Equals(shotPoint))
+                if (btn.Tag.Equals(shotPoint))
                 {
                     left--;
                     if (left == 0)
                     {
-                        Killed(this, point);
+                        Killed(this, (Point) btn.Tag);
                     } 
                     else
                     {
-                        Injured(this, point);
+                        Injured(this, (Point) btn.Tag);
                     }
                 }
             }

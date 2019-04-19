@@ -55,7 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="FieldDrower.cs" />
     <Compile Include="GameField.cs" />
     <Compile Include="GameFieldElement.xaml.cs">
       <DependentUpon>GameFieldElement.xaml</DependentUpon>

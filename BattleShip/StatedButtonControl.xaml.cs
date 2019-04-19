@@ -23,41 +23,41 @@ namespace BattleShip
     /// </summary>
     public partial class StatedButtonControl : UserControl
     {
-        private GameField thisField;
+        public GameFieldElement ThisField { get; private set; }
 
-        public StatedButtonControl(GameField field)
+        public StatedButtonControl(GameFieldElement field)
         {
             InitializeComponent();
-            thisField = field;
+            ThisField = field;
         }
 
         private void Button_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (thisField.isSetting)
+            if (ThisField.IsSetting && button.ButtonState == StatedButton.State.Unselected)
             {
-                GameField.SetShipState(this);
+                ThisField.FieldSetter.SetShipState(this);
             }
         }
 
         private void Button_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (thisField.isSetting)
+            if (ThisField.IsSetting && button.ButtonState == StatedButton.State.SetShip)
             {
-                GameField.UnsetShipState();
+                ThisField.FieldSetter.UnsetShipState();
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (thisField.isSetting)
+            if (ThisField.IsSetting)
             {
                 if (button.ButtonState == StatedButton.State.Ship)
                 {
-                    GameField.UnsetShipOnField();
+                    ThisField.FieldSetter.UnsetShipOnField(button.LinkedShip, this);
                 }
                 else
                 {
-                    GameField.SetShipOnField();
+                    ThisField.FieldSetter.SetShipOnField();
                 }
             }
         }

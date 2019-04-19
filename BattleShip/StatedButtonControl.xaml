@@ -50,6 +50,6 @@
 
     </UserControl.Resources>
     <Grid>
-        <local:StatedButton x:Name="button" MouseEnter="Button_MouseEnter" Click="Button_Click" MouseLeave="Button_MouseLeave" Template="{StaticResource shipTemplate}" InSetting="True" ButtonState="Unselected"/>
+        <local:StatedButton x:Name="button" Tag="{Binding ElementName=userControl, Path=Tag}" MouseEnter="Button_MouseEnter" Click="Button_Click" MouseLeave="Button_MouseLeave" Template="{StaticResource shipTemplate}" InSetting="True" ButtonState="Unselected"/>
     </Grid>
 </UserControl>
