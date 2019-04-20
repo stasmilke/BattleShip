@@ -23,6 +23,7 @@ namespace BattleShip
         public event ShipStateHandler Injured;
         public event ShipStateHandler Missed;
 
+        public bool IsVertical { set; get; }
         public StatedButton[] Position { get; set; }
         private int left;
         public Ship(int length)

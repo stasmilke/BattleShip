@@ -4,23 +4,12 @@ namespace BattleShip
 {
     public class ShipCollection
     {
+        public delegate void UpdateAmount(int[] array);
+        public static event UpdateAmount Updated;
+        public delegate void ListIsEmpty(bool isEmpty);
+        public static event ListIsEmpty Empty;
+
         private List<Ship> ships;
-
-        public class NumbersLeft
-        {
-            public static void SetValue(int[] numbers)
-            {
-                First = numbers[0].ToString();
-                Second = numbers[1].ToString();
-                Third = numbers[2].ToString();
-                Fourth = numbers[3].ToString();
-            }
-            public static string First { get; set; } = "4";
-            public static string Second { get; set; } = "3";
-            public static string Third { get; set; } = "2";
-            public static string Fourth { get; set; } = "1";
-        }
-
         public ShipCollection()
         {
             ships = new List<Ship>(10);
@@ -37,23 +26,32 @@ namespace BattleShip
         {
             Ship ship = ships.Find(x => x.ShipLength == length);
             ships.Remove(ship);
-            NumbersLeft.SetValue(GetNumbers());
+            Updated(GetNumbers());
+            if (ships.Count == 0)
+            {
+                Empty(true);
+            }
             return ship;
         }
 
         public void ReturnShip(Ship ship)
         {
             ships.Add(new Ship(ship.ShipLength));
-            NumbersLeft.SetValue(GetNumbers());
+            Updated(GetNumbers());
+            if (ships.Count > 0)
+            {
+                Empty(false);
+            }
         }
 
         public int[] GetNumbers()
         {
-            int[] numbers = new int[4];
+            int[] numbers = new int[5];
             for (int i = 0; i < 4; i++)
             {
                 numbers[i] = ships.FindAll(x => x.ShipLength == i + 1).Count;
             }
+            numbers[4] = ships.Count;
             return numbers;
         }
     }

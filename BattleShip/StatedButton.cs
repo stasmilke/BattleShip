@@ -52,6 +52,7 @@ namespace BattleShip
             Selected,
             Missed,
             Killed,
+            Locked
         }
 
         private void inSettingShip()

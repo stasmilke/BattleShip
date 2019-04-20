@@ -53,11 +53,11 @@ namespace BattleShip
             {
                 if (button.ButtonState == StatedButton.State.Ship)
                 {
-                    ThisField.FieldSetter.UnsetShipOnField(button.LinkedShip, this);
+                    ThisField.FieldSetter.UnsetShipFromField(button.LinkedShip, this);
                 }
                 else
                 {
-                    ThisField.FieldSetter.SetShipOnField();
+                    ThisField.FieldSetter.SetShipOnField(ThisField);
                 }
             }
         }

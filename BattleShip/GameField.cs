@@ -12,28 +12,39 @@ namespace BattleShip
     {
         private List<StatedButton> buttons;
         private ShipCollection shipToSet;
+        private Random rnd;
+        private bool isVertical;
 
         public GameField()
         {
             buttons = new List<StatedButton>(4);
             shipToSet = new ShipCollection();
+            rnd = new Random();
         }
 
         public void SetShipState(StatedButtonControl sender)
         {
+            isVertical = GameWindow.IsVertical;
+            int length = GameWindow.SelectedLength;
+            Point point = (Point)sender.Tag;
+            StatedButtonControl[,] playerField = sender.ThisField.PlayerField;
+            SetShipState(isVertical, length, point, playerField);
+        }
+
+        private bool SetShipState(bool isVertical, int length, Point point, StatedButtonControl[,] playerField)
+        {
             bool isFail = false;
-            Point point = (Point) sender.Tag;
-            int shipPoint = (int) (GameWindow.IsVertical ? point.Y : point.X);
-            if (shipPoint + GameWindow.SelectedLength > 10)
-            {
-                shipPoint -= shipPoint + GameWindow.SelectedLength - 10;
-            }
             StatedButtonControl buttonControl;
-            for (int i = 0; i < GameWindow.SelectedLength; i++)
+            int changablePos = (int)(isVertical ? point.Y : point.X);
+            if (changablePos + length > 10)
             {
-                buttonControl = GameWindow.IsVertical
-                              ? sender.ThisField.PlayerField[(int)point.X, shipPoint + i]
-                              : sender.ThisField.PlayerField[shipPoint + i, (int)point.Y];
+                changablePos -= changablePos + length - 10;
+            }
+            for (int i = 0; i < length; i++)
+            {
+                buttonControl = isVertical
+                              ? playerField[(int)point.X, changablePos + i]
+                              : playerField[changablePos + i, (int)point.Y];
                 if (buttonControl.button.ButtonState == StatedButton.State.Unselected)
                 {
                     buttonControl.button.ButtonState = StatedButton.State.SetShip;
@@ -49,6 +60,7 @@ namespace BattleShip
             {
                 UnsetShipState();
             }
+            return isFail;
         }
 
         public void UnsetShipState()
@@ -60,9 +72,14 @@ namespace BattleShip
             buttons.Clear();
         }
 
-        public void SetShipOnField()
+        public void SetShipOnField(GameFieldElement gameField)
         {
             Ship ship = shipToSet.GetShip(buttons.Count);
+            SetShipOnField(ship, isVertical, gameField);
+        }
+
+        public void SetShipOnField(Ship ship, bool isVertical, GameFieldElement gameField)
+        {
             if (ship != null)
             {
                 int index = 0;
@@ -72,11 +89,13 @@ namespace BattleShip
                     btn.LinkedShip = ship;
                     ship.Position[index++] = btn;
                 }
+                ship.IsVertical = isVertical;
+                ChangeNearState(ship, gameField.PlayerField, false);
                 buttons.Clear();
             }
         }
 
-        public void UnsetShipOnField(Ship ship, StatedButtonControl sender)
+        public void UnsetShipFromField(Ship ship, StatedButtonControl sender)
         {
             foreach (StatedButton btn in ship.Position)
             {
@@ -84,22 +103,73 @@ namespace BattleShip
                 btn.LinkedShip = null;
             }
             shipToSet.ReturnShip(ship);
+            ChangeNearState(ship, sender.ThisField.PlayerField, true);
             SetShipState(sender);
         }
 
-
-
-
-
-        //Отключение соседних с кораблем клеток
-        private void TurnOffNear()
+        public void SetRandomShips(GameFieldElement gameField)
         {
-
+            Ship thisShip;
+            bool isVertical;
+            Point point;
+            for (int j = 0; j < 4; j++)
+            {
+                for (int i = 0; i < 4 - j; i++)
+                {
+                    isVertical = rnd.Next(0, 2) == 1;
+                    thisShip = shipToSet.GetShip(j + 1);
+                    point = new Point(rnd.Next(0, 10), rnd.Next(0, 10));
+                    while (SetShipState(isVertical, j + 1, point, gameField.PlayerField))
+                    {
+                        point = new Point(rnd.Next(0, 10), rnd.Next(0, 10));
+                    }
+                    SetShipOnField(thisShip, isVertical, gameField);
+                }
+            }
         }
 
-        private void TurnOnNear()
+        private void ChangeNearState(Ship ship, StatedButtonControl[,] playerField, bool unlock)
         {
+            Point point;
+            int shift;
+            for (int i = 0; i < ship.Position.Length; i++)
+            {
+                point = (Point)ship.Position[i].Tag;
+                if (i == 0)
+                {
+                    shift = -1;
+                    Lock(point, ship, playerField, true, shift, unlock);
+                }
+                if (i == ship.Position.Length - 1)
+                {
+                    shift = 1;
+                    Lock(point, ship, playerField, true, shift, unlock);
+                }
+                Lock(point, ship, playerField, false, -1, unlock);
+                Lock(point, ship, playerField, false, 1, unlock);
+            }
 
+            
+        }
+
+        private void Lock(Point point, Ship ship, StatedButtonControl[,] playerField, bool invert, int shift, bool unlock)
+        {
+            try
+            {
+                StatedButtonControl control;
+                control = ship.IsVertical ^ invert
+                            ? playerField[(int)point.X + shift, (int)point.Y]
+                            : playerField[(int)point.X, (int)point.Y + shift];
+                if (control.button.ButtonState == StatedButton.State.Locked && unlock)
+                {
+                    control.button.ButtonState = StatedButton.State.Unselected;
+                }
+                if (control.button.ButtonState == StatedButton.State.Unselected && !unlock)
+                {
+                    control.button.ButtonState = StatedButton.State.Locked;
+                }
+            }
+            catch (Exception) { }
         }
     }
 }
