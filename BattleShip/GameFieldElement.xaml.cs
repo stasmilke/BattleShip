@@ -22,7 +22,25 @@ namespace BattleShip
     {
         public StatedButtonControl[,] PlayerField { get; private set; }
         public GameField FieldSetter { get; private set; }
-        public bool IsSetting { get; set; }
+        public static readonly DependencyProperty InSettingProperty;
+        public static readonly DependencyProperty ComputerProperty;
+        static GameFieldElement()
+        {
+            InSettingProperty = DependencyProperty.Register("InSetting", typeof(bool), typeof(GameFieldElement), new UIPropertyMetadata(false));
+            ComputerProperty = DependencyProperty.Register("Computer", typeof(bool), typeof(GameFieldElement), new UIPropertyMetadata(false));
+        }
+
+        public bool InSetting
+        {
+            get { return (bool)GetValue(InSettingProperty); }
+            set { SetValue(InSettingProperty, value); }
+        }
+
+        public bool Computer
+        {
+            get { return (bool)GetValue(ComputerProperty); }
+            set { SetValue(ComputerProperty, value); }
+        }
 
         public GameFieldElement()
         {

@@ -75,17 +75,17 @@ namespace BattleShip
         public void SetShipOnField(GameFieldElement gameField)
         {
             Ship ship = shipToSet.GetShip(buttons.Count);
-            SetShipOnField(ship, isVertical, gameField);
+            SetShipOnField(ship, isVertical, gameField, StatedButton.State.Ship);
         }
 
-        public void SetShipOnField(Ship ship, bool isVertical, GameFieldElement gameField)
+        public void SetShipOnField(Ship ship, bool isVertical, GameFieldElement gameField, StatedButton.State state)
         {
             if (ship != null)
             {
                 int index = 0;
                 foreach (StatedButton btn in buttons)
                 {
-                    btn.ButtonState = StatedButton.State.Ship;
+                    btn.ButtonState = state;
                     btn.LinkedShip = ship;
                     ship.Position[index++] = btn;
                 }
@@ -107,7 +107,7 @@ namespace BattleShip
             SetShipState(sender);
         }
 
-        public void SetRandomShips(GameFieldElement gameField)
+        public void SetRandomShips(GameFieldElement gameField, StatedButton.State state)
         {
             Ship thisShip;
             bool isVertical;
@@ -123,7 +123,7 @@ namespace BattleShip
                     {
                         point = new Point(rnd.Next(0, 10), rnd.Next(0, 10));
                     }
-                    SetShipOnField(thisShip, isVertical, gameField);
+                    SetShipOnField(thisShip, isVertical, gameField, state);
                 }
             }
         }
@@ -148,8 +148,6 @@ namespace BattleShip
                 Lock(point, ship, playerField, false, -1, unlock);
                 Lock(point, ship, playerField, false, 1, unlock);
             }
-
-            
         }
 
         private void Lock(Point point, Ship ship, StatedButtonControl[,] playerField, bool invert, int shift, bool unlock)

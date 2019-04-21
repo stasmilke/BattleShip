@@ -33,7 +33,7 @@ namespace BattleShip
 
         private void Button_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (ThisField.IsSetting && button.ButtonState == StatedButton.State.Unselected)
+            if (ThisField.InSetting && button.ButtonState == StatedButton.State.Unselected)
             {
                 ThisField.FieldSetter.SetShipState(this);
             }
@@ -41,7 +41,7 @@ namespace BattleShip
 
         private void Button_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (ThisField.IsSetting && button.ButtonState == StatedButton.State.SetShip)
+            if (ThisField.InSetting && button.ButtonState == StatedButton.State.SetShip)
             {
                 ThisField.FieldSetter.UnsetShipState();
             }
@@ -49,7 +49,7 @@ namespace BattleShip
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (ThisField.IsSetting)
+            if (ThisField.InSetting)
             {
                 if (button.ButtonState == StatedButton.State.Ship)
                 {
@@ -58,6 +58,15 @@ namespace BattleShip
                 else
                 {
                     ThisField.FieldSetter.SetShipOnField(ThisField);
+                }
+            }
+            else if (ThisField.Computer)
+            {
+                if (button.ButtonState == StatedButton.State.HidenShip
+                    || button.ButtonState == StatedButton.State.Unselected
+                    || button.ButtonState == StatedButton.State.Locked)
+                {
+                    GameWindow.Exchanger.CheckShot((Point) button.Tag, false);
                 }
             }
         }

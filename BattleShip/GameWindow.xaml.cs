@@ -25,12 +25,11 @@ namespace BattleShip
         private static int shuCounter = 0;
         public static bool IsVertical { get; private set; } = false;
         public static int SelectedLength { get; private set; } = 0;
-        public GameFieldElement ComputerField { get; private set; }
+        public static ShotExchanger Exchanger { get; private set; }
 
         public GameWindow()
         {
             InitializeComponent();
-            gameFieldGrid.IsSetting = true;
             ShipCollection.Updated += UpdateAmount;
             ShipCollection.Empty += TurnSaveButton;
         }
@@ -69,7 +68,7 @@ namespace BattleShip
 
         private void RandomButton_Click(object sender, RoutedEventArgs e)
         {
-            gameFieldGrid.FieldSetter.SetRandomShips(gameFieldGrid);
+            gameFieldGrid.FieldSetter.SetRandomShips(gameFieldGrid, StatedButton.State.Ship);
         }
 
         private void Window_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -96,6 +95,13 @@ namespace BattleShip
                 turnButton.RaiseEvent(new RoutedEventArgs(TurnButton.SchukinEvent, sender));
                 shuCounter = 0;
             }
+        }
+
+        private void ButtonSaveBegin_Click(object sender, RoutedEventArgs e)
+        {
+            gameFieldGrid.InSetting = false;
+            computerFieldGrid.FieldSetter.SetRandomShips(computerFieldGrid, StatedButton.State.HidenShip);
+            Exchanger = new ShotExchanger(gameFieldGrid.PlayerField, computerFieldGrid.PlayerField);
         }
     }
 }

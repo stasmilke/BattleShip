@@ -17,44 +17,26 @@ namespace BattleShip
 {
     public class Ship
     {
-        public delegate void ShipStateHandler(Ship injShip, Point injPoint);
-
-        public event ShipStateHandler Killed;
-        public event ShipStateHandler Injured;
-        public event ShipStateHandler Missed;
-
         public bool IsVertical { set; get; }
         public StatedButton[] Position { get; set; }
-        private int left;
+        public int Left { get; private set; }
         public Ship(int length)
         {
             ShipLength = length;
-            left = length;
+            Left = length;
             IsKilled = false;
             Position = new StatedButton[length];
         }
 
-        public int ShipLength { get; }
-        public bool IsKilled { get; }
-
-        public void CheckShot(Point shotPoint)
+        public void Decrement()
         {
-            foreach (StatedButton btn in Position)
+            Left--;
+            if (Left == 0)
             {
-                if (btn.Tag.Equals(shotPoint))
-                {
-                    left--;
-                    if (left == 0)
-                    {
-                        Killed(this, (Point) btn.Tag);
-                    } 
-                    else
-                    {
-                        Injured(this, (Point) btn.Tag);
-                    }
-                }
+                IsKilled = true;
             }
-            Missed(this, shotPoint);
         }
+        public int ShipLength { get; }
+        public bool IsKilled { get; private set; }
     }
 }

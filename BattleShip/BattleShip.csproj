@@ -61,6 +61,7 @@
     </Compile>
     <Compile Include="Ship.cs" />
     <Compile Include="ShipCollection.cs" />
+    <Compile Include="ShotExchanger.cs" />
     <Compile Include="SizeConverter.cs" />
     <Compile Include="StatedButton.cs" />
     <Compile Include="StatedButtonControl.xaml.cs">

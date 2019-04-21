@@ -19,11 +19,6 @@ namespace BattleShip
         public static readonly DependencyProperty StateProperty;
         public static readonly DependencyProperty InSettingProperty;
 
-        public event RoutedEventHandler Unselected;
-        public event RoutedEventHandler Selected;
-        public event RoutedEventHandler Missed;
-        public event RoutedEventHandler Killed;
-
         public Ship LinkedShip { get; set; }
 
         static StatedButton()
@@ -49,15 +44,11 @@ namespace BattleShip
             Unselected,
             SetShip,
             Ship,
+            HidenShip,
             Selected,
             Missed,
             Killed,
             Locked
-        }
-
-        private void inSettingShip()
-        {
-
         }
     }
 }

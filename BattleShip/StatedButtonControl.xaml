@@ -18,7 +18,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
                     <Ellipse 
-                    x:Name="killed"
+                    x:Name="Point"
                     Opacity="0"
                     Width="{Binding ActualWidth, ConverterParameter=0\,8, Converter={StaticResource SizeConverter}, ElementName=button, Mode=OneWay}" 
                     Height="{Binding ActualWidth, ConverterParameter=0\,8, Converter={StaticResource SizeConverter}, ElementName=button, Mode=OneWay}"
@@ -33,23 +33,27 @@
                         <Condition Property="ButtonState" Value="SetShip"/>
                     </MultiTrigger.Conditions>
                     <MultiTrigger.Setters>
-                        <Setter TargetName="killed" Property="Opacity" Value="0.5"/>
+                        <Setter TargetName="Point" Property="Opacity" Value="0.5"/>
                     </MultiTrigger.Setters>
                 </MultiTrigger>
 
-                <MultiTrigger>
-                    <MultiTrigger.Conditions>
-                        <Condition Property="ButtonState" Value="Ship"/>
-                    </MultiTrigger.Conditions>
-                    <MultiTrigger.Setters>
-                        <Setter TargetName="killed" Property="Opacity" Value="1"/>
-                    </MultiTrigger.Setters>
-                </MultiTrigger>
+                <Trigger Property="ButtonState" Value="Ship">
+                    <Setter TargetName="Point" Property="Opacity" Value="1"/>
+                </Trigger>
+
+                <Trigger Property="ButtonState" Value="Missed">
+                    <Setter TargetName="Point" Property="Fill" Value="Green"/>
+                    <Setter TargetName="Point" Property="Opacity" Value="1"/>
+                </Trigger>
+                <Trigger Property="ButtonState" Value="Killed">
+                    <Setter TargetName="Point" Property="Fill" Value="#FFB60505"/>
+                    <Setter TargetName="Point" Property="Opacity" Value="1"/>
+                </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
 
     </UserControl.Resources>
     <Grid>
-        <local:StatedButton x:Name="button" Tag="{Binding ElementName=userControl, Path=Tag}" MouseEnter="Button_MouseEnter" Click="Button_Click" MouseLeave="Button_MouseLeave" Template="{StaticResource shipTemplate}" InSetting="True" ButtonState="Unselected"/>
+        <local:StatedButton x:Name="button" Tag="{Binding ElementName=userControl, Path=Tag}" MouseEnter="Button_MouseEnter" Click="Button_Click" MouseLeave="Button_MouseLeave" Template="{StaticResource shipTemplate}" ButtonState="Unselected" InSetting="True"/>
     </Grid>
 </UserControl>
