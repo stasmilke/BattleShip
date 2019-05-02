@@ -112,7 +112,7 @@ namespace BattleShip
             Ship thisShip;
             bool isVertical;
             Point point;
-            for (int j = 0; j < 4; j++)
+            for (int j = 3; j >= 0; j--)
             {
                 for (int i = 0; i < 4 - j; i++)
                 {
@@ -131,31 +131,35 @@ namespace BattleShip
         private void ChangeNearState(Ship ship, StatedButtonControl[,] playerField, bool unlock)
         {
             Point point;
-            int shift;
+            Point endPoint;
             for (int i = 0; i < ship.Position.Length; i++)
             {
                 point = (Point)ship.Position[i].Tag;
                 if (i == 0)
                 {
-                    shift = -1;
-                    Lock(point, ship, playerField, true, shift, unlock);
+                    endPoint = ship.IsVertical ? new Point((int)point.X, (int)point.Y - 1) : new Point((int)point.X - 1, (int)point.Y);
+                    Lock(endPoint, ship, playerField, -1, unlock);
+                    Lock(endPoint, ship, playerField, 1, unlock);
+                    Lock(endPoint, ship, playerField, 0, unlock);
                 }
                 if (i == ship.Position.Length - 1)
                 {
-                    shift = 1;
-                    Lock(point, ship, playerField, true, shift, unlock);
+                    endPoint = ship.IsVertical ? new Point((int)point.X, (int)point.Y + 1) : new Point((int)point.X + 1, (int)point.Y);
+                    Lock(endPoint, ship, playerField, -1, unlock);
+                    Lock(endPoint, ship, playerField, 1, unlock);
+                    Lock(endPoint, ship, playerField, 0, unlock);
                 }
-                Lock(point, ship, playerField, false, -1, unlock);
-                Lock(point, ship, playerField, false, 1, unlock);
+                Lock(point, ship, playerField, -1, unlock);
+                Lock(point, ship, playerField, 1, unlock);
             }
         }
 
-        private void Lock(Point point, Ship ship, StatedButtonControl[,] playerField, bool invert, int shift, bool unlock)
+        private void Lock(Point point, Ship ship, StatedButtonControl[,] playerField, int shift, bool unlock)
         {
             try
             {
                 StatedButtonControl control;
-                control = ship.IsVertical ^ invert
+                control = ship.IsVertical
                             ? playerField[(int)point.X + shift, (int)point.Y]
                             : playerField[(int)point.X, (int)point.Y + shift];
                 if (control.button.ButtonState == StatedButton.State.Locked && unlock)

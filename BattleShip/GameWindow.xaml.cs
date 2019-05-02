@@ -27,6 +27,8 @@ namespace BattleShip
         public static int SelectedLength { get; private set; } = 0;
         public static ShotExchanger Exchanger { get; private set; }
 
+        
+
         public GameWindow()
         {
             InitializeComponent();
