@@ -103,7 +103,7 @@ namespace BattleShip
         {
             gameFieldGrid.InSetting = false;
             computerFieldGrid.FieldSetter.SetRandomShips(computerFieldGrid, StatedButton.State.HidenShip);
-            Exchanger = new ShotExchanger(gameFieldGrid.PlayerField, computerFieldGrid.PlayerField);
+            Exchanger = new ShotExchanger(gameFieldGrid.PlayerField, computerFieldGrid.PlayerField, this);
         }
     }
 }

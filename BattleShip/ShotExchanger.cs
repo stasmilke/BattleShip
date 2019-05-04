@@ -27,7 +27,9 @@ namespace BattleShip
 
         private Direction direction;
 
-        public ShotExchanger(StatedButtonControl[,] arrPlayer, StatedButtonControl[,] arrComputer)
+        private GameWindow gameWindow;
+
+        public ShotExchanger(StatedButtonControl[,] arrPlayer, StatedButtonControl[,] arrComputer, GameWindow window)
         {
             player = arrPlayer;
             computer = arrComputer;
@@ -36,6 +38,7 @@ namespace BattleShip
             playerLeft = 20;
             rnd = new Random();
             points = new List<Point>(6);
+            gameWindow = window;
         }
 
         public void CheckShot(Point point, bool isComputer)
@@ -64,11 +67,13 @@ namespace BattleShip
                 }
                 if (computerLeft == 0)
                 {
-                    //Победил игрок
+                    MessageBox.Show("Вы победили!");
+                    gameWindow.Close();
                 } 
                 if (playerLeft == 0)
                 {
-                    //Победил компьютер
+                    MessageBox.Show("Победил компьютер");
+                    gameWindow.Close();
                 }
             }
             else if (button.button.ButtonState == StatedButton.State.Unselected || button.button.ButtonState == StatedButton.State.Locked)
@@ -122,14 +127,7 @@ namespace BattleShip
             
             if (!isComputer)
             {
-                StatedButtonControl btn;
-                Point pnt;
-                while ((pnt = GetRandomPoint()).X > 9 || pnt.Y > 9 || (btn = player[(int)point.X, (int)point.Y]).button.ButtonState == StatedButton.State.Missed
-                    || btn.button.ButtonState == StatedButton.State.Killed)
-                {
-                    direction++;
-                }
-                CheckShot(pnt, true);
+                CheckShot(GetRandomPoint(), true);
             }
         }
 
@@ -145,30 +143,36 @@ namespace BattleShip
                     point = new Point(rnd.Next(0, 10), rnd.Next(0, 10));
                 }
                 while ((btn = player[(int)point.X, (int)point.Y]).button.ButtonState == StatedButton.State.Missed
-                    || btn.button.ButtonState == StatedButton.State.Killed);
+                     || btn.button.ButtonState == StatedButton.State.Killed);
             }
             else
             {
                 Point oldPoint = points[points.Count - 1];
-                switch (direction)
+                StatedButtonControl btn;
+                while (((point = GetNextPoint(oldPoint)).X > 9 || point.Y > 9 || point.X < 0 || point.Y < 0 ||
+                    (btn = player[(int)point.X, (int)point.Y]).button.ButtonState == StatedButton.State.Missed
+                    || btn.button.ButtonState == StatedButton.State.Killed ) && (int) direction < 4)
                 {
-                    case Direction.Left:
-                        point = new Point(oldPoint.X - 1, oldPoint.Y);
-                        break;
-                    case Direction.Up:
-                        point = new Point(oldPoint.X, oldPoint.Y + 1);
-                        break;
-                    case Direction.Right:
-                        point = new Point(oldPoint.X + 1, oldPoint.Y);
-                        break;
-                    default:
-                        point = new Point(oldPoint.X, oldPoint.Y - 1);
-                        break;
+                    direction++;
                 }
             }
-
             points.Add(point);
             return point;
+        }
+
+        private Point GetNextPoint(Point oldPoint)
+        {
+            switch (direction)
+            {
+                case Direction.Left:
+                    return new Point(oldPoint.X - 1, oldPoint.Y);
+                case Direction.Up:
+                    return new Point(oldPoint.X, oldPoint.Y + 1);
+                case Direction.Right:
+                    return new Point(oldPoint.X + 1, oldPoint.Y);
+                default:
+                    return new Point(oldPoint.X, oldPoint.Y - 1);
+            }
         }
 
         private enum Direction
