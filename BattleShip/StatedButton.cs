@@ -15,7 +15,6 @@ namespace BattleShip
 {
     public class StatedButton : ButtonBase
     {
-
         public static readonly DependencyProperty StateProperty;
         public static readonly DependencyProperty InSettingProperty;
 

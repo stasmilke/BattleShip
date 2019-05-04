@@ -27,8 +27,6 @@ namespace BattleShip
         public static int SelectedLength { get; private set; } = 0;
         public static ShotExchanger Exchanger { get; private set; }
 
-        
-
         public GameWindow()
         {
             InitializeComponent();
@@ -36,7 +34,6 @@ namespace BattleShip
             ShipCollection.Empty += TurnSaveButton;
         }
       
-
         private void UpdateAmount(int[] amounts)
         {
             oneShip.Content = amounts[0];

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Морской бой" Height="400" Width="400" ResizeMode="NoResize">
+        Title="Морской бой" Height="300" Width="400" ResizeMode="NoResize">
     <Window.Resources>
         <ControlTemplate TargetType="Button" x:Key="menuTemplate">
             <Border x:Name="buttonBorder"
@@ -40,22 +40,12 @@
                 <GradientStop Color="#FF012979" Offset="0.642"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <TextBlock x:Name="nameLabel" HorizontalAlignment="Left" Height="80" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="373.6" TextAlignment="Center" FontSize="48" Text="Морской бой" TextDecorations="{x:Null}" Foreground="White" FontFamily="Segoe UI Light"/>
+        <TextBlock x:Name="nameLabel" Height="80" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="373.6" TextAlignment="Center" FontSize="48" Text="Морской бой" TextDecorations="{x:Null}" Foreground="White" FontFamily="Segoe UI Light"/>
 
 
-        <TextBlock x:Name="author" HorizontalAlignment="Left" Height="34.4" Margin="9.6,68.417,0,0" TextWrapping="Wrap" Text="Станислав Мильке" VerticalAlignment="Top" Width="374" TextAlignment="Center" Foreground="White" FontSize="20" FontStyle="Italic"/>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="216.8" Margin="47,144,47,10" RenderTransformOrigin="0.5,0.5" Width="300" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-            <Button x:Name="newGameButton" Template="{StaticResource menuTemplate}" Content="Новая игра" Width="300" Height="40" Margin="0,5">
-                <Button.BorderBrush>
-                    <ImageBrush/>
-                </Button.BorderBrush>
-            </Button>
-            <Button x:Name="resumeButton" Template="{StaticResource menuTemplate}" Content="Продолжить" Width="300" Height="40" Margin="0,0,0,5">
-                <Button.BorderBrush>
-                    <ImageBrush/>
-                </Button.BorderBrush>
-            </Button>
-            <Button x:Name="settingsButton" Template="{StaticResource menuTemplate}" Width="300" Height="40" Content="Настройки" Margin="0,0,0,5">
+        <TextBlock x:Name="author" Height="34.4" Margin="0,70,0,0" TextWrapping="Wrap" Text="Станислав Мильке" VerticalAlignment="Top" Width="374" TextAlignment="Center" Foreground="White" FontSize="20" FontStyle="Italic"/>
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="120" Margin="0,100,0,10" RenderTransformOrigin="0.5,0.5" Width="300" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <Button x:Name="newGameButton" Template="{StaticResource menuTemplate}" Content="Начать игру" Width="300" Height="40" Margin="0,5">
                 <Button.BorderBrush>
                     <ImageBrush/>
                 </Button.BorderBrush>
