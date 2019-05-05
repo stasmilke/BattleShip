@@ -9,11 +9,11 @@ namespace BattleShip
 {
     public class ShotExchanger
     {
-        public delegate void ShotDelegate(Point point, bool isFirstPlayer);
-        public delegate void ShotMessage();
+        //public delegate void ShotDelegate(Point point, bool isFirstPlayer);
+        //public delegate void ShotMessage();
 
-        public static event ShotMessage ShotHasMade;
-        public static event ShotDelegate Shot;
+        //public static event ShotMessage ShotHasMade;
+        //public static event ShotDelegate Shot;
 
         private static StatedButtonControl[,] player;
         private static StatedButtonControl[,] computer;
@@ -33,7 +33,7 @@ namespace BattleShip
         {
             player = arrPlayer;
             computer = arrComputer;
-            Shot += CheckShot;
+            //Shot += CheckShot;
             computerLeft = 20;
             playerLeft = 20;
             rnd = new Random();
